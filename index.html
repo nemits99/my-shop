@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display</title>
+    <style>
+        /* Reset margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background styling */
+        body {
+            background-color: #000000;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #4a90e2;
+            margin-bottom: 0.5em;
+        }
+        /* Navbar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 1em 2em;
+            background-color: #333;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            font-size: 1.2em;
+            color: #f4f400;
+            margin-left: 1.5em;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+    display: flex;
+    align-items: center;
+    gap: 1em; /* Jarak antar elemen */
+}
+
+.search-container input[type="text"] {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 2; /* Membuat input lebih lebar */
+}
+
+.search-container select {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1; /* Membuat select box lebih kecil dibandingkan input */
+}
+
+
+        /* Hero section styling */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3em 2em;
+            background-color: #4a90e2;
+            color: white;
+            text-align: center;
+            height: 60vh;
+            background-image: url('icon-192x192.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+       
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 1em;
+        }
+
+        .hero button {
+            background-color: #ff5a5f;
+            border: none;
+            padding: 0.7em 2em;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .hero button:hover {
+            background-color: #ff4045;
+        }
+
+        /* Products Section */
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 3em 2em;
+        }
+
+        .product-box {
+            flex: 1 1 30%;
+            max-width: 300px;
+            text-align: center;
+            padding: 1em;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+            transition: transform 0.3s ease;
+        }
+
+        .product-box:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1em;
+        }
+
+        .product-box h3 {
+            font-size: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .product-box p {
+            font-size: 1.2em;
+            color: #ff5a5f;
+        }
+
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            padding: 1.5em;
+            background-color: #333;
+            color: #fff;
+        }
+        /* Popup Styling */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    max-width: 500px;
+    width: 90%;
+}
+
+.popup-content img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1em;
+    border-radius: 8px;
+}
+
+.popup-content h3 {
+    font-size: 1.8em;
+    margin-bottom: 0.5em;
+}
+
+.popup-content p {
+    font-size: 1.2em;
+    color: #333;
+    line-height: 1.5; 
+    text-align: justify; 
+    word-wrap: break-word;
+    overflow-wrap: break-word; 
+    max-width: 90%; 
+    margin: 0 auto; 
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em;
+    color: #333;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ff5a5f;
+}
+
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+        align-items: stretch; 
+    }
+
+    .search-container input[type="text"],
+    .search-container select {
+        width: 100%; 
+    }
+}
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+    .products {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 1em;
+    }
+
+    .navbar .search-container {
+        flex-direction: column;
+        width: 100%;
+        gap: 1em;
+    }
+
+    .navbar input[type="text"],
+    .navbar select {
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .hero h1 {
+        font-size: 1.8em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2>My Shop</h2>
+        <div>
+            <a href="#hero">Home</a>
+            <a href="#products">Products</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <!-- Search Box and Category Dropdown -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+            <select id="categorySelect" onchange="searchProducts()">
+                <option value="">All Categories</option>
+                <option value="category1">Category 1</option>
+                <option value="category2">Category 2</option>
+                <option value="category3">Category 3</option>
+            </select>
+        </div>
+        </div>
+        </div>
+        
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <img src="" alt="Hero Image" class="hero-image">
+        <h1>Welcome to Our Product</h1>
+        <p>Discover the ultimate solution for your business needs with our innovative product.</p>
+        <button onclick="scrollToSection('products')">Shop Now</button>
+    </section>
+    
+
+   <!-- Popup Container -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <img id="popup-img" src="" alt="Product Image">
+        <h3 id="popup-title"></h3>
+        <p id="popup-description"></p>
+    </div>
+</div>
+
+<!-- Products Section -->
+<section id="products" class="products">
+    <div class="product-box" data-category="category1" onclick="showPopup('icon-192x192.png', 'Product 1', 'This is the description for Product 1.')">
+        <img src="icon-192x192.png" alt="Product 1">
+        <h3>Product 1</h3>
+        <p>$19.99</p>
+    </div>
+    <div class="product-box" data-category="category2" onclick="showPopup('icon-192x192.png', 'Product 2', 'This is the description for Product 2.')">
+        <img src="icon-192x192.png" alt="Product 2">
+        <h3>Product 2</h3>
+        <p>$29.99</p>
+    </div>
+    <div class="product-box" data-category="category3" onclick="showPopup('icon-192x192.png', 'Product 3', 'This is the description for Product 3.')">
+        <img src="icon-192x192.png" alt="Product 3">
+        <h3>Product 3</h3>
+        <p>$39.99</p>
+    </div>
+    <div class="product-box" data-category="category1" onclick="showPopup('icon-192x192.png', 'Product 4', 'This is the description for Product 4.')">
+        <img src="icon-192x192.png" alt="Product 4">
+        <h3>Product 4</h3>
+        <p>$49.99</p>
+    </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <p>&copy; 2024 BrandName. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to scroll to specific section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Adding event listeners to navbar links for smooth scrolling
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const sectionId = this.getAttribute('href').substring(1);
+                scrollToSection(sectionId);
+            });
+        });
+
+        // Function to filter products based on search and category
+        function searchProducts() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const categorySelect = document.getElementById('categorySelect').value;
+            const productBoxes = document.querySelectorAll('.product-box');
+            
+            productBoxes.forEach(product => {
+                const productName = product.querySelector('h3').textContent.toLowerCase();
+                const productCategory = product.getAttribute('data-category');
+                
+                const matchesSearch = productName.includes(searchInput);
+                const matchesCategory = categorySelect === '' || productCategory === categorySelect;
+                
+                if (matchesSearch && matchesCategory) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+        // Function to show the popup
+function showPopup(imageSrc, title, description) {
+    document.getElementById('popup-img').src = imageSrc;
+    document.getElementById('popup-title').textContent = title;
+    document.getElementById('popup-description').textContent = description;
+    document.getElementById('popup').style.display = 'flex';
+}
+
+// Function to close the popup
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+    </script>
+
+</body>
+</html>
